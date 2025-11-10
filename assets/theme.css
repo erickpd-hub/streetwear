@@ -1,0 +1,615 @@
+/**
+ * Theme-specific CSS
+ * Additional styles for Shopify theme components
+ */
+
+/* Reset and base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Base styles for product cards and sections */
+.product-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.dark .product-card {
+  background-color: rgb(17, 24, 39);
+}
+
+.product-category {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgb(107, 114, 128);
+}
+
+.dark .product-category {
+  color: rgb(156, 163, 175);
+}
+
+.product-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-title a:hover {
+  color: rgb(239, 68, 68);
+}
+
+/* Section styles */
+.section-heading {
+  color: black;
+}
+
+.dark .section-heading {
+  color: white;
+}
+
+.section-description {
+  color: rgb(75, 85, 99);
+}
+
+.dark .section-description {
+  color: rgb(156, 163, 175);
+}
+
+/* Category cards */
+.category-card {
+  position: relative;
+}
+
+.dark .category-card {
+  background-color: rgb(31, 41, 55);
+}
+
+/* Newsletter section */
+.newsletter-input {
+  background-color: white;
+  color: black;
+  border: 1px solid rgb(209, 213, 219);
+}
+
+.dark .newsletter-input {
+  background-color: rgb(17, 24, 39);
+  color: white;
+  border-color: rgb(55, 65, 81);
+}
+
+.newsletter-input:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: rgb(239, 68, 68);
+}
+
+/* Footer styles */
+.site-footer {
+  background-color: white;
+  border-color: rgb(229, 231, 235);
+}
+
+.dark .site-footer {
+  background-color: black;
+  border-color: rgb(31, 41, 55);
+}
+
+.footer-logo-text {
+  color: black;
+}
+
+.dark .footer-logo-text {
+  color: white;
+}
+
+.footer-description,
+.footer-menu-list,
+.footer-text-content,
+.footer-social-list,
+.footer-bottom {
+  color: rgb(75, 85, 99);
+}
+
+.dark .footer-description,
+.dark .footer-menu-list,
+.dark .footer-text-content,
+.dark .footer-social-list,
+.dark .footer-bottom {
+  color: rgb(156, 163, 175);
+}
+
+.footer-menu-title,
+.footer-text-title,
+.footer-social-title {
+  color: black;
+}
+
+.dark .footer-menu-title,
+.dark .footer-text-title,
+.dark .footer-social-title {
+  color: white;
+}
+
+/* Categories section background */
+.categories-section {
+  background-color: rgb(249, 250, 251);
+}
+
+.dark .categories-section {
+  background-color: rgb(17, 24, 39);
+}
+
+/* Button styles */
+.btn-icon {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.btn-outline {
+  border: 2px solid black;
+  color: black;
+}
+
+.dark .btn-outline {
+  border-color: white;
+  color: white;
+}
+
+.btn-outline:hover {
+  background-color: black;
+  color: white;
+}
+
+.dark .btn-outline:hover {
+  background-color: white;
+  color: black;
+}
+
+/* Badge styles */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Navbar mobile menu */
+.mobile-menu {
+  background-color: rgba(0, 0, 0, 0.95);
+}
+
+.dark .mobile-menu {
+  background-color: rgba(0, 0, 0, 0.95);
+}
+
+/* Cart count badge */
+.cart-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Skip to content link */
+.skip-to-content-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background-color: black;
+  color: white;
+  padding: 1rem;
+  z-index: 9999;
+}
+
+.skip-to-content-link:focus {
+  top: 0;
+}
+
+.visually-hidden:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* Focus styles */
+.focus-none:focus {
+  outline: none;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .logo-text {
+    font-size: 1.25rem;
+  }
+}
+
+/* Logo styles */
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+
+.logo-link {
+  display: block;
+}
+
+.logo-image {
+  display: block;
+  height: auto;
+}
+
+/* Navbar styles */
+.navbar {
+  width: 100%;
+  background: transparent;
+}
+
+/* Cart count badge - posición encima del icono */
+.cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background-color: #ef4444;
+  color: white;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.cart-count.hidden {
+  display: none;
+}
+
+.cart-count:empty {
+  display: none;
+}
+
+/* Nav links styles */
+.nav-link {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  padding-bottom: 4px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: #ef4444;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+.nav-link-mobile {
+  text-decoration: none;
+}
+
+/* Announcement bar fixed positioning */
+.announcement-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 36px;
+}
+
+/* Header positioning to account for announcement bar */
+.site-header {
+  position: fixed;
+  top: 36px; /* Height of announcement bar */
+  left: 0;
+  right: 0;
+  z-index: 50;
+  transition: background-color 0.3s ease;
+}
+
+.site-header .navbar {
+  background: transparent !important;
+}
+
+.site-header.scrolled .navbar {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+}
+
+.dark .site-header.scrolled .navbar {
+  background-color: rgba(0, 0, 0, 0.95) !important;
+}
+
+/* Hero banner should start from top */
+.hero-banner {
+  margin-top: 0;
+}
+
+/* Other sections need padding for navbar */
+.featured-collection:first-child,
+.collection-list:first-child,
+section:first-child:not(.hero-banner) {
+  padding-top: 120px;
+}
+
+/* Quantity buttons */
+.quantity-btn {
+  min-width: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  user-select: none;
+  cursor: pointer;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Section styles */
+.section-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.section-description {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Hero banner */
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Product grid */
+.products-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+/* Category grid */
+.categories-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.category-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Newsletter */
+.newsletter-section {
+  width: 100%;
+}
+
+/* Add to cart container */
+.add-to-cart-container {
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+/* Product info */
+.product-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.product-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-price {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.price {
+  color: inherit;
+}
+
+.compare-price {
+  font-size: 0.875rem;
+}
+
+/* Smooth transitions for theme switching */
+html,
+body,
+.navbar,
+.product-card,
+.category-card,
+.footer,
+input,
+button {
+  transition-property: background-color, border-color, color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+button, a {
+  transition-property: all;
+}
+
+/* Utility for fill colors */
+.fill-red-500 {
+  fill: rgb(239, 68, 68);
+}
+
+/* Aspect ratio fallback */
+.aspect-ratio-3-4 {
+  aspect-ratio: 3/4;
+}
+
+@supports not (aspect-ratio: 3/4) {
+  .aspect-ratio-3-4 {
+    position: relative;
+    padding-bottom: 133.33%;
+  }
+  
+  .aspect-ratio-3-4 > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Cart Template Styles - Shopify Standards */
+.cart-template {
+  background-color: var(--background);
+}
+
+.cart-item {
+  transition: opacity 0.3s ease;
+  position: relative;
+}
+
+.cart-item.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.quantity-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  border: none;
+}
+
+.quantity-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-wrapper input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.quantity-wrapper input[type="number"]::-webkit-outer-spin-button,
+.quantity-wrapper input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cart-summary {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+
+.cart-summary::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cart-summary::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cart-summary::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 3px;
+}
+
+.dark .cart-summary::-webkit-scrollbar-thumb {
+  background: #4a5568;
+}
+
+.empty-cart svg {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cart item card styling */
+.cart-item {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.dark .cart-item {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cart-template {
+    padding-top: 120px;
+  }
+  
+  .cart-item {
+    padding: 1rem;
+  }
+  
+  .cart-summary {
+    position: relative;
+    top: 0;
+    margin-top: 2rem;
+  }
+}

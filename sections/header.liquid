@@ -1,0 +1,132 @@
+{% comment %}
+  Header Section - Navbar transparente con scroll effect
+{% endcomment %}
+
+<header id="shopify-section-header" class="site-header" data-section-id="{{ section.id }}" data-section-type="header">
+  <nav class="navbar w-full transition-all duration-300" data-navbar>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        {% comment %} Logo {% endcomment %}
+        <div class="flex-shrink-0">
+          {% if section.settings.logo != blank %}
+            <a href="{{ routes.root_url }}" class="logo-link">
+              <img 
+                src="{{ section.settings.logo | img_url: 'medium' }}" 
+                alt="{{ shop.name }}"
+                class="logo-image"
+                style="max-width: {{ section.settings.logo_width }}px;"
+              >
+            </a>
+          {% else %}
+            <a href="{{ routes.root_url }}" class="logo-text">
+              {{ section.settings.logo_text | default: shop.name }}
+              <span class="text-red-500">{{ section.settings.logo_accent }}</span>
+            </a>
+          {% endif %}
+        </div>
+
+        {% comment %} Desktop Navigation {% endcomment %}
+        <div class="hidden md:flex items-center space-x-8">
+          {% for link in section.settings.menu.links %}
+            <a 
+              href="{{ link.url }}" 
+              class="nav-link transition-colors hover:text-red-500"
+            >
+              {{ link.title }}
+            </a>
+          {% endfor %}
+        </div>
+
+        {% comment %} Right Icons {% endcomment %}
+        <div class="flex items-center space-x-4">
+          
+          {% comment %} Theme Toggle {% endcomment %}
+          <button 
+            type="button"
+            class="theme-toggle btn-icon transition-colors"
+            aria-label="Toggle theme"
+            data-theme-toggle
+          >
+            <svg class="sun-icon h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <svg class="moon-icon h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+
+          {% comment %} Account Icon {% endcomment %}
+          <a 
+            href="{{ routes.account_url }}" 
+            class="hidden md:inline-flex btn-icon transition-colors"
+            aria-label="Account"
+          >
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </a>
+
+          {% comment %} Cart Icon {% endcomment %}
+          <a 
+            href="{{ routes.cart_url }}" 
+            class="cart-link btn-icon transition-colors"
+            aria-label="Cart"
+            data-cart-link
+          >
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span 
+              class="cart-count"
+              data-cart-count
+            >
+              {{ cart.item_count }}
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 250,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo Width",
+      "default": 120
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "STREET"
+    },
+    {
+      "type": "text",
+      "id": "logo_accent",
+      "label": "Logo Accent Text",
+      "default": "WEAR"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

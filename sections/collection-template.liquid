@@ -1,0 +1,82 @@
+{% comment %}
+  Collection Template Section
+{% endcomment %}
+
+{% paginate collection.products by 12 %}
+
+<section class="collection-template py-20" data-section-id="{{ section.id }}" style="padding-top: 140px;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="collection-header mb-12">
+      <h1 class="text-3xl md:text-4xl mb-4">{{ collection.title }}</h1>
+      {% if collection.description != blank %}
+        <p class="text-gray-600 dark:text-gray-400 max-w-3xl">
+          {{ collection.description }}
+        </p>
+      {% endif %}
+    </div>
+
+    {% if collection.products.size > 0 %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {% for product in collection.products %}
+          <div class="product-card-wrapper">
+            {% render 'product-card', product: product %}
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        <div class="pagination mt-12 flex justify-center gap-2">
+          {% if paginate.previous %}
+            <a href="{{ paginate.previous.url }}" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              ← Anterior
+            </a>
+          {% endif %}
+          
+          {% for part in paginate.parts %}
+            {% if part.is_link %}
+              <a href="{{ part.url }}" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                {{ part.title }}
+              </a>
+            {% else %}
+              <span class="px-4 py-2 bg-red-500 text-white rounded">
+                {{ part.title }}
+              </span>
+            {% endif %}
+          {% endfor %}
+          
+          {% if paginate.next %}
+            <a href="{{ paginate.next.url }}" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              Siguiente →
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="empty-collection text-center py-12">
+        <svg class="w-24 h-24 mx-auto mb-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+        </svg>
+        <h2 class="text-xl mb-4">No hay productos en esta colección</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">Vuelve pronto para ver nuevos productos</p>
+        <a 
+          href="/" 
+          class="inline-block bg-red-500 text-white px-8 py-3 rounded-lg hover:bg-red-600 transition-colors"
+        >
+          Volver al inicio
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Collection Template",
+  "tag": "section",
+  "class": "collection-section"
+}
+{% endschema %}

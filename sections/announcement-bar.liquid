@@ -1,0 +1,149 @@
+{% comment %}
+  Announcement Bar - Cinta de ofertas con animación
+{% endcomment %}
+
+<div class="announcement-bar bg-red-500 text-white py-2 overflow-hidden relative" style="z-index: 100;" data-section-id="{{ section.id }}">
+  <div class="announcement-slider">
+    <div class="announcement-track">
+      {% for block in section.blocks %}
+        <div class="announcement-item px-8" {{ block.shopify_attributes }}>
+          {% if block.settings.link != blank %}
+            <a href="{{ block.settings.link }}" class="text-white hover:text-white/90 transition-colors">
+              {{ block.settings.text }}
+            </a>
+          {% else %}
+            <span>{{ block.settings.text }}</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+      
+      {% comment %} Duplicar para seamless loop {% endcomment %}
+      {% for block in section.blocks %}
+        <div class="announcement-item px-8">
+          {% if block.settings.link != blank %}
+            <a href="{{ block.settings.link }}" class="text-white hover:text-white/90 transition-colors">
+              {{ block.settings.text }}
+            </a>
+          {% else %}
+            <span>{{ block.settings.text }}</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .announcement-bar {
+    width: 100%;
+  }
+
+  .announcement-slider {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  .announcement-track {
+    display: inline-flex;
+    animation: scroll-left {{ section.settings.speed }}s linear infinite;
+    will-change: transform;
+  }
+
+  .announcement-item {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.875rem;
+  }
+
+  .announcement-item a,
+  .announcement-item span {
+    text-decoration: none;
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .announcement-item {
+      font-size: 0.75rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "tag": "section",
+  "class": "announcement-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "s",
+      "label": "Animation Speed",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Announcement Text",
+          "default": "🔥 Envío gratis en compras mayores a $50 USD"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (Optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "🔥 Envío gratis en compras mayores a $50 USD"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "✨ 20% OFF en toda la tienda - Usa código: STREET20"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "🚀 Nueva colección disponible ahora"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

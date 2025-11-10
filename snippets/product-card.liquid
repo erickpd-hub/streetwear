@@ -1,0 +1,92 @@
+{% comment %}
+  Product Card Snippet
+  
+  Parameters:
+  - product: Product object
+  - show_badge: boolean
+  - badge_text: string
+{% endcomment %}
+
+{% assign product_image = product.featured_image | default: product.images.first %}
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+  {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+{% endif %}
+
+<div 
+  class="product-card group relative rounded-lg overflow-hidden transition-transform hover:scale-105 shadow-lg"
+  data-product-id="{{ product.id }}"
+>
+  {% comment %} Image Container {% endcomment %}
+  <div class="relative aspect-[3/4] overflow-hidden">
+    <a href="{{ product.url }}">
+      {% if product_image %}
+        <img 
+          src="{{ product_image | img_url: '600x800', crop: 'center' }}" 
+          alt="{{ product.title | escape }}"
+          class="w-full h-full object-cover"
+          loading="lazy"
+        >
+      {% else %}
+        {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover' }}
+      {% endif %}
+    </a>
+
+    {% comment %} Badges {% endcomment %}
+    <div class="absolute top-3 left-3 flex flex-col gap-2">
+      {% if show_badge and badge_text != blank %}
+        <span class="badge bg-red-500 text-white px-3 py-1 rounded text-xs uppercase tracking-wide">
+          {{ badge_text }}
+        </span>
+      {% endif %}
+      
+      {% if on_sale %}
+        <span class="badge bg-black text-white px-3 py-1 rounded text-xs uppercase tracking-wide">
+          -{{ discount }}%
+        </span>
+      {% endif %}
+    </div>
+
+    {% comment %} Add to Cart Button (shows on hover) {% endcomment %}
+    <div class="add-to-cart-container absolute bottom-0 left-0 right-0 p-2 transition-transform duration-300 translate-y-full group-hover:translate-y-0 flex justify-center">
+      {% form 'product', product, class: 'add-to-cart-form w-auto' %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <button 
+          type="submit" 
+          class="bg-black text-white hover:bg-red-500 px-4 py-2.5 text-base rounded-lg transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
+          {% unless product.available %}disabled{% endunless %}
+        >
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          {% if product.available %}
+            Agregar al Carrito
+          {% else %}
+            Agotado
+          {% endif %}
+        </button>
+      {% endform %}
+    </div>
+  </div>
+
+  {% comment %} Product Info {% endcomment %}
+  <div class="p-4">
+    <p class="product-category uppercase tracking-wider mb-1 text-gray-600">
+      {{ product.type }}
+    </p>
+    <h3 class="product-title mb-2">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+    <div class="product-price flex items-center gap-2">
+      <span class="price">
+        {{ product.price | money }}
+      </span>
+      {% if on_sale %}
+        <span class="compare-price text-gray-500 line-through">
+          {{ product.compare_at_price | money }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+</div>

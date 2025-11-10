@@ -1,0 +1,109 @@
+{
+  "sections": {
+    "announcement_bar": {
+      "type": "announcement-bar",
+      "settings": {}
+    },
+    "header": {
+      "type": "header",
+      "settings": {}
+    },
+    "hero_banner": {
+      "type": "hero-banner",
+      "settings": {
+        "subheading": "COLECCIÓN 2025",
+        "heading": "URBAN\nSTYLE",
+        "text": "Descubre la nueva colección de ropa streetwear diseñada para los que marcan tendencia en las calles",
+        "text_color": "#ffffff",
+        "button_label_1": "Comprar Ahora",
+        "button_link_1": "/collections/all",
+        "button_color_1": "#ef4444",
+        "button_label_2": "Ver Colección",
+        "button_link_2": "/collections/all",
+        "button_color_2": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 40,
+        "show_scroll_indicator": true
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "badge_text": "Nueva Colección",
+        "heading": "Lo Más Nuevo en Streetwear",
+        "description": "Descubre nuestras últimas piezas diseñadas para destacar en cualquier situación urbana",
+        "products_to_show": 6,
+        "show_new_badge": true,
+        "new_badge_text": "Nuevo",
+        "show_view_all": true,
+        "button_label": "Ver Toda la Colección"
+      }
+    },
+    "categories": {
+      "type": "categories",
+      "blocks": {
+        "category_1": {
+          "type": "category",
+          "settings": {
+            "title": "Hoodies",
+            "link": "/collections/hoodies"
+          }
+        },
+        "category_2": {
+          "type": "category",
+          "settings": {
+            "title": "Jackets",
+            "link": "/collections/jackets"
+          }
+        },
+        "category_3": {
+          "type": "category",
+          "settings": {
+            "title": "Sneakers",
+            "link": "/collections/sneakers"
+          }
+        },
+        "category_4": {
+          "type": "category",
+          "settings": {
+            "title": "Accesorios",
+            "link": "/collections/accessories"
+          }
+        }
+      },
+      "block_order": [
+        "category_1",
+        "category_2",
+        "category_3",
+        "category_4"
+      ],
+      "settings": {
+        "heading": "Compra por Categoría",
+        "description": "Encuentra exactamente lo que buscas"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Mantente al Día",
+        "description": "Suscríbete para recibir las últimas novedades, ofertas exclusivas y tendencias streetwear",
+        "placeholder": "Tu email",
+        "button_label": "Suscribirse",
+        "success_message": "¡Gracias por suscribirte!"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {}
+    }
+  },
+  "order": [
+    "announcement_bar",
+    "header",
+    "hero_banner",
+    "featured_collection",
+    "categories",
+    "newsletter",
+    "footer"
+  ]
+}

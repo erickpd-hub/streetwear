@@ -1,0 +1,157 @@
+{% comment %}
+  Featured Collection Section
+{% endcomment %}
+
+<section 
+  id="shopify-section-{{ section.id }}" 
+  class="featured-collection py-20 px-4 sm:px-6 lg:px-8"
+  data-section-id="{{ section.id }}"
+  data-section-type="featured-collection"
+>
+  <div class="max-w-7xl mx-auto">
+    
+    {% comment %} Section Header {% endcomment %}
+    <div class="text-center mb-12">
+      {% if section.settings.badge_text != blank %}
+        <span class="badge inline-block mb-4 bg-red-500 text-white px-4 py-2 rounded text-sm uppercase tracking-wide">
+          {{ section.settings.badge_text }}
+        </span>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="section-heading mb-4">
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <p class="section-description max-w-2xl mx-auto text-gray-600">
+          {{ section.settings.description }}
+        </p>
+      {% endif %}
+    </div>
+
+    {% comment %} Products Grid {% endcomment %}
+    {% if section.settings.collection != blank %}
+      <div class="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for product in section.settings.collection.products limit: section.settings.products_to_show %}
+          {% render 'product-card', 
+            product: product, 
+            show_badge: section.settings.show_new_badge,
+            badge_text: section.settings.new_badge_text
+          %}
+        {% endfor %}
+      </div>
+
+      {% comment %} View All Button {% endcomment %}
+      {% if section.settings.show_view_all %}
+        <div class="text-center mt-12">
+          <a 
+            href="{{ section.settings.collection.url }}" 
+            class="btn-outline border-2 px-8 py-3 rounded-lg transition-colors inline-block hover:bg-black hover:text-white"
+          >
+            {{ section.settings.button_label }}
+          </a>
+        </div>
+      {% endif %}
+    {% else %}
+      {% comment %} Placeholder when no collection selected {% endcomment %}
+      <div class="products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for i in (1..6) %}
+          <div class="product-card-placeholder rounded-lg overflow-hidden shadow-lg">
+            <div class="aspect-[3/4] bg-gray-200">
+              {{ 'product-' | append: i | placeholder_svg_tag: 'w-full h-full object-cover' }}
+            </div>
+            <div class="p-4">
+              <p class="text-sm text-gray-400 mb-1">CATEGORÍA</p>
+              <h3 class="mb-2">Producto de Ejemplo</h3>
+              <p>$99.99</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "Nueva Colección"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Lo Más Nuevo en Streetwear"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Descubre nuestras últimas piezas diseñadas para destacar en cualquier situación urbana"
+    },
+    {
+      "type": "header",
+      "content": "Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "label": "Products to Show",
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_new_badge",
+      "label": "Show 'New' Badge on Products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "new_badge_text",
+      "label": "New Badge Text",
+      "default": "Nuevo"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Ver Toda la Colección"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}

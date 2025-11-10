@@ -1,0 +1,431 @@
+{% comment %}
+  Cart Template Section - Shopify Standards
+{% endcomment %}
+
+<section class="cart-template py-8 md:py-12 min-h-screen" data-section-id="{{ section.id }}" style="padding-top: 140px;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="mb-8 md:mb-12">
+      <h1 class="text-3xl md:text-4xl font-bold mb-2">Tu Carrito</h1>
+      <p class="text-gray-600 dark:text-gray-400 text-lg">{{ cart.item_count }} {% if cart.item_count == 1 %}artículo{% else %}artículos{% endif %}</p>
+    </div>
+
+    {% if cart.item_count > 0 %}
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        
+        {% comment %} Cart Items - Left Column (Vertical Stack) {% endcomment %}
+        <div class="flex-1 lg:w-2/3">
+          <div class="cart-items flex flex-col space-y-4">
+            {% for item in cart.items %}
+              <div class="cart-item relative bg-white dark:bg-gray-800 rounded-lg p-4 md:p-6 border border-gray-200 dark:border-gray-700">
+                
+                {% comment %} Remove Button - Top Right {% endcomment %}
+                <a 
+                  href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0" 
+                  class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors z-10"
+                  aria-label="Eliminar producto"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </a>
+
+                <div class="flex gap-4 md:gap-6 pr-8">
+                  {% comment %} Product Image {% endcomment %}
+                  {% if item.image %}
+                    <a href="{{ item.url }}" class="flex-shrink-0">
+                      <img 
+                        src="{{ item.image | img_url: '120x120', crop: 'center' }}" 
+                        alt="{{ item.image.alt | default: item.title }}"
+                        class="w-20 h-20 md:w-24 md:h-24 object-cover rounded border border-gray-200 dark:border-gray-700"
+                        loading="lazy"
+                      >
+                    </a>
+                  {% endif %}
+
+                  {% comment %} Product Details {% endcomment %}
+                  <div class="flex-1 min-w-0">
+                    <h3 class="text-base md:text-lg font-medium mb-1">
+                      <a href="{{ item.url }}" class="hover:text-red-500 transition-colors">
+                        {{ item.product.title }}
+                      </a>
+                    </h3>
+                    
+                    {% if item.variant.title != 'Default Title' %}
+                      <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                        {{ item.variant.title }}
+                      </p>
+                    {% endif %}
+
+                    {% if item.product.vendor %}
+                      <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        {{ item.product.vendor }}
+                      </p>
+                    {% endif %}
+
+                    {% if item.properties.size > 0 %}
+                      <div class="text-sm text-gray-600 dark:text-gray-400 space-y-1 mb-3">
+                        {% for property in item.properties %}
+                          {% unless property.last == blank %}
+                            <div>{{ property.first }}: {{ property.last }}</div>
+                          {% endunless %}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+
+                    {% comment %} Quantity Controls - Mobile {% endcomment %}
+                    <div class="flex items-center gap-4 mt-3 md:hidden">
+                      <label for="updates_{{ item.key }}" class="text-sm font-medium text-gray-700 dark:text-gray-300">Cantidad:</label>
+                      <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden">
+                        <button 
+                          type="button" 
+                          class="quantity-btn px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
+                          data-decrease="{{ item.key }}"
+                          aria-label="Disminuir cantidad"
+                        >
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                          </svg>
+                        </button>
+                        <input 
+                          type="number" 
+                          name="updates[]" 
+                          id="updates_{{ item.key }}" 
+                          value="{{ item.quantity }}" 
+                          min="0"
+                          class="w-14 text-center border-x border-gray-300 dark:border-gray-600 py-2 bg-white dark:bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                          data-cart-quantity="{{ item.key }}"
+                          data-line="{{ forloop.index }}"
+                          aria-label="Cantidad"
+                        >
+                        <button 
+                          type="button" 
+                          class="quantity-btn px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" 
+                          data-increase="{{ item.key }}"
+                          aria-label="Aumentar cantidad"
+                        >
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {% comment %} Quantity and Price - Desktop {% endcomment %}
+                  <div class="hidden md:flex items-center gap-8 flex-shrink-0">
+                    {% comment %} Quantity Controls - Desktop {% endcomment %}
+                    <div class="flex items-center gap-3">
+                      <label for="updates_desktop_{{ item.key }}" class="text-sm font-medium text-gray-700 dark:text-gray-300">Cantidad:</label>
+                      <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden">
+                        <button 
+                          type="button" 
+                          class="quantity-btn px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
+                          data-decrease="{{ item.key }}"
+                          aria-label="Disminuir cantidad"
+                        >
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                          </svg>
+                        </button>
+                        <input 
+                          type="number" 
+                          name="updates[]" 
+                          id="updates_desktop_{{ item.key }}" 
+                          value="{{ item.quantity }}" 
+                          min="0"
+                          class="w-14 text-center border-x border-gray-300 dark:border-gray-600 py-2 bg-white dark:bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                          data-cart-quantity="{{ item.key }}"
+                          data-line="{{ forloop.index }}"
+                          aria-label="Cantidad"
+                        >
+                        <button 
+                          type="button" 
+                          class="quantity-btn px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" 
+                          data-increase="{{ item.key }}"
+                          aria-label="Aumentar cantidad"
+                        >
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    {% comment %} Price {% endcomment %}
+                    <div class="text-right">
+                      <div class="text-lg md:text-xl font-medium whitespace-nowrap">
+                        {% if item.original_line_price > item.line_price %}
+                          <span class="text-gray-500 line-through text-sm block mb-1">{{ item.original_line_price | money }}</span>
+                        {% endif %}
+                        <span>{{ item.line_price | money }}</span>
+                      </div>
+                      {% if item.unit_price_measurement %}
+                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                          {{ item.unit_price | money }} / {{ item.unit_price_measurement.reference_value }}{{ item.unit_price_measurement.reference_unit }}
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  {% comment %} Price - Mobile {% endcomment %}
+                  <div class="md:hidden flex-shrink-0 text-right">
+                    <div class="text-lg font-medium">
+                      {% if item.original_line_price > item.line_price %}
+                        <span class="text-gray-500 line-through text-sm block mb-1">{{ item.original_line_price | money }}</span>
+                      {% endif %}
+                      <span>{{ item.line_price | money }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          {% comment %} Cart Actions {% endcomment %}
+          <form action="{{ routes.cart_url }}" method="post" novalidate id="cart-form" class="cart-form mt-8">
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a 
+                href="{{ routes.all_products_collection_url }}" 
+                class="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-center"
+              >
+                Continuar comprando
+              </a>
+              
+              <button 
+                type="submit" 
+                name="update" 
+                class="px-6 py-3 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              >
+                Actualizar carrito
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {% comment %} Cart Summary - Right Column {% endcomment %}
+        <div class="lg:w-1/3 lg:max-w-md">
+          <div class="cart-summary bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 lg:sticky lg:top-32">
+            <h2 class="text-xl md:text-2xl font-bold mb-6">Resumen del pedido</h2>
+            
+            <div class="space-y-4 mb-6">
+              <div class="flex justify-between text-base">
+                <span class="text-gray-600 dark:text-gray-400">Subtotal</span>
+                <span class="font-medium">{{ cart.total_price | money }}</span>
+              </div>
+              
+              <div class="flex justify-between text-base">
+                <span class="text-gray-600 dark:text-gray-400">Envío</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">Calculado en checkout</span>
+              </div>
+              
+              {% if cart.cart_level_discount_applications.size > 0 %}
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+                  {% for discount in cart.cart_level_discount_applications %}
+                    <div class="flex justify-between text-sm text-red-600 dark:text-red-400">
+                      <span>{{ discount.title }}</span>
+                      <span>-{{ discount.total_allocated_amount | money }}</span>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              
+              <div class="border-t border-gray-300 dark:border-gray-700 pt-4 mt-4">
+                <div class="flex justify-between text-lg md:text-xl font-bold mb-1">
+                  <span>Total</span>
+                  <span>{{ cart.total_price | money }}</span>
+                </div>
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              name="checkout"
+              form="cart-form"
+              class="w-full bg-white dark:bg-gray-900 text-black dark:text-white border-2 border-black dark:border-white py-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all font-medium text-base mb-4"
+            >
+              Proceder al pago
+            </button>
+            
+            <a 
+              href="{{ routes.all_products_collection_url }}" 
+              class="block text-center text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors text-sm py-2 mb-6"
+            >
+              Continuar comprando
+            </a>
+
+            {% comment %} Benefits List {% endcomment %}
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-3">
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Envío gratis sobre $100</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Devoluciones en 30 días</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-sm text-gray-600 dark:text-gray-400">Checkout seguro</span>
+              </div>
+            </div>
+
+            {% if section.settings.show_note %}
+              <div class="cart-note mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <label for="cart-note" class="block mb-2 text-sm font-medium">Nota del pedido (opcional)</label>
+                <textarea 
+                  name="note" 
+                  id="cart-note"
+                  form="cart-form"
+                  class="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 bg-white dark:bg-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"
+                  rows="3"
+                  placeholder="Instrucciones especiales para el vendedor..."
+                >{{ cart.note }}</textarea>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    {% else %}
+      {% comment %} Empty Cart {% endcomment %}
+      <div class="empty-cart text-center py-16 md:py-24">
+        <svg class="w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <h2 class="text-2xl font-bold mb-3">Tu carrito está vacío</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">¡Agrega algunos productos increíbles a tu carrito para comenzar!</p>
+        <a 
+          href="{{ routes.all_products_collection_url }}" 
+          class="inline-block bg-black dark:bg-white text-white dark:text-black px-8 py-3 rounded-lg hover:bg-gray-900 dark:hover:bg-gray-100 transition-colors font-medium"
+        >
+          Continuar comprando
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const cartForm = document.getElementById('cart-form');
+    if (!cartForm) return;
+
+    // Update cart via AJAX
+    function updateCart() {
+      const formData = new FormData(cartForm);
+      
+      fetch('{{ routes.cart_update_url }}', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          throw new Error('Error updating cart');
+        }
+      })
+      .catch(error => {
+        console.error('Error updating cart:', error);
+        // Fallback to form submit
+        cartForm.submit();
+      });
+    }
+
+    // Quantity input change
+    const quantityInputs = document.querySelectorAll('[data-cart-quantity]');
+    quantityInputs.forEach(function(input) {
+      let timeout;
+      input.addEventListener('change', function() {
+        const value = parseInt(this.value);
+        if (value < 0) {
+          this.value = 0;
+        }
+        clearTimeout(timeout);
+        timeout = setTimeout(updateCart, 500);
+      });
+
+      input.addEventListener('blur', function() {
+        if (parseInt(this.value) === 0) {
+          const line = this.dataset.line;
+          window.location.href = '{{ routes.cart_change_url }}?line=' + line + '&quantity=0';
+        }
+      });
+    });
+
+    // Quantity buttons - sync mobile and desktop inputs
+    document.querySelectorAll('[data-increase]').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const key = this.dataset.increase;
+        const inputs = document.querySelectorAll('[data-cart-quantity="' + key + '"]');
+        if (inputs.length > 0) {
+          const newValue = parseInt(inputs[0].value) + 1;
+          inputs.forEach(function(input) {
+            input.value = newValue;
+          });
+          inputs[0].dispatchEvent(new Event('change'));
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-decrease]').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const key = this.dataset.decrease;
+        const inputs = document.querySelectorAll('[data-cart-quantity="' + key + '"]');
+        if (inputs.length > 0) {
+          const currentValue = parseInt(inputs[0].value);
+          if (currentValue > 1) {
+            const newValue = currentValue - 1;
+            inputs.forEach(function(input) {
+              input.value = newValue;
+            });
+            inputs[0].dispatchEvent(new Event('change'));
+          } else if (currentValue === 1) {
+            // Remove item if quantity is 1
+            const line = inputs[0].dataset.line;
+            window.location.href = '{{ routes.cart_change_url }}?line=' + line + '&quantity=0';
+          }
+        }
+      });
+    });
+
+    // Sync inputs when one changes
+    quantityInputs.forEach(function(input) {
+      input.addEventListener('input', function() {
+        const key = this.dataset.cartQuantity;
+        const allInputs = document.querySelectorAll('[data-cart-quantity="' + key + '"]');
+        allInputs.forEach(function(inp) {
+          if (inp !== input) {
+            inp.value = this.value;
+          }
+        }.bind(this));
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Cart Template",
+  "tag": "section",
+  "class": "cart-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_note",
+      "label": "Mostrar nota del pedido",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

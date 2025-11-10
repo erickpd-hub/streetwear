@@ -1,0 +1,276 @@
+{% comment %}
+  Footer Section
+{% endcomment %}
+
+<footer 
+  id="shopify-section-{{ section.id }}" 
+  class="site-footer py-12 px-4 sm:px-6 lg:px-8 border-t"
+  data-section-id="{{ section.id }}"
+  data-section-type="footer"
+>
+  <div class="max-w-7xl mx-auto">
+    
+    <div class="footer-content grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      {% comment %} Footer Logo/Brand {% endcomment %}
+      <div class="footer-brand">
+        {% if section.settings.logo != blank %}
+          <img 
+            src="{{ section.settings.logo | img_url: 'medium' }}" 
+            alt="{{ shop.name }}"
+            class="footer-logo mb-4"
+            style="max-width: {{ section.settings.logo_width }}px;"
+          >
+        {% else %}
+          <h3 class="footer-logo-text mb-4">
+            {{ section.settings.logo_text | default: shop.name }}
+            <span class="text-red-500">{{ section.settings.logo_accent }}</span>
+          </h3>
+        {% endif %}
+        
+        {% if section.settings.description != blank %}
+          <p class="footer-description text-gray-600">
+            {{ section.settings.description }}
+          </p>
+        {% endif %}
+      </div>
+
+      {% comment %} Footer Menus {% endcomment %}
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'menu' %}
+            <div class="footer-menu" {{ block.shopify_attributes }}>
+              {% if block.settings.title != blank %}
+                <h4 class="footer-menu-title mb-4">
+                  {{ block.settings.title }}
+                </h4>
+              {% endif %}
+              
+              {% if block.settings.menu != blank %}
+                <ul class="footer-menu-list space-y-2 text-gray-600">
+                  {% for link in linklists[block.settings.menu].links %}
+                    <li>
+                      <a href="{{ link.url }}" class="hover:text-red-500 transition-colors">
+                        {{ link.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+
+          {% when 'text' %}
+            <div class="footer-text" {{ block.shopify_attributes }}>
+              {% if block.settings.title != blank %}
+                <h4 class="footer-text-title mb-4">
+                  {{ block.settings.title }}
+                </h4>
+              {% endif %}
+              
+              {% if block.settings.content != blank %}
+                <div class="footer-text-content text-gray-600">
+                  {{ block.settings.content }}
+                </div>
+              {% endif %}
+            </div>
+
+          {% when 'social' %}
+            <div class="footer-social" {{ block.shopify_attributes }}>
+              {% if block.settings.title != blank %}
+                <h4 class="footer-social-title mb-4">
+                  {{ block.settings.title }}
+                </h4>
+              {% endif %}
+              
+              <ul class="footer-social-list space-y-2 text-gray-600">
+                {% if block.settings.instagram_url != blank %}
+                  <li>
+                    <a href="{{ block.settings.instagram_url }}" class="hover:text-red-500 transition-colors" target="_blank" rel="noopener">
+                      Instagram
+                    </a>
+                  </li>
+                {% endif %}
+                {% if block.settings.twitter_url != blank %}
+                  <li>
+                    <a href="{{ block.settings.twitter_url }}" class="hover:text-red-500 transition-colors" target="_blank" rel="noopener">
+                      Twitter
+                    </a>
+                  </li>
+                {% endif %}
+                {% if block.settings.facebook_url != blank %}
+                  <li>
+                    <a href="{{ block.settings.facebook_url }}" class="hover:text-red-500 transition-colors" target="_blank" rel="noopener">
+                      Facebook
+                    </a>
+                  </li>
+                {% endif %}
+                {% if block.settings.tiktok_url != blank %}
+                  <li>
+                    <a href="{{ block.settings.tiktok_url }}" class="hover:text-red-500 transition-colors" target="_blank" rel="noopener">
+                      TikTok
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+        {% endcase %}
+      {% endfor %}
+
+    </div>
+
+    {% comment %} Footer Bottom {% endcomment %}
+    <div class="footer-bottom pt-8 border-t text-center text-gray-600">
+      <p>
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.copyright_text }}
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo Width",
+      "default": 100
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "STREET"
+    },
+    {
+      "type": "text",
+      "id": "logo_accent",
+      "label": "Logo Accent Text",
+      "default": "WEAR"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Tu destino para la mejor ropa streetwear"
+    },
+    {
+      "type": "header",
+      "content": "Copyright"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "Todos los derechos reservados."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Links"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text Block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social Media",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Síguenos"
+        },
+        {
+          "type": "url",
+          "id": "instagram_url",
+          "label": "Instagram URL"
+        },
+        {
+          "type": "url",
+          "id": "twitter_url",
+          "label": "Twitter URL"
+        },
+        {
+          "type": "url",
+          "id": "facebook_url",
+          "label": "Facebook URL"
+        },
+        {
+          "type": "url",
+          "id": "tiktok_url",
+          "label": "TikTok URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        {
+          "type": "menu",
+          "settings": {
+            "title": "Comprar"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "title": "Ayuda"
+          }
+        },
+        {
+          "type": "social",
+          "settings": {
+            "title": "Síguenos"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

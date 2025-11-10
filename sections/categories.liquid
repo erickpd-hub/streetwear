@@ -1,0 +1,140 @@
+{% comment %}
+  Categories Section - Shop by Category
+{% endcomment %}
+
+<section 
+  id="shopify-section-{{ section.id }}" 
+  class="categories-section py-20 px-4 sm:px-6 lg:px-8"
+  data-section-id="{{ section.id }}"
+  data-section-type="categories"
+>
+  <div class="max-w-7xl mx-auto">
+    
+    {% comment %} Section Header {% endcomment %}
+    <div class="text-center mb-12">
+      {% if section.settings.heading != blank %}
+        <h2 class="section-heading mb-4">
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <p class="section-description max-w-2xl mx-auto text-gray-600">
+          {{ section.settings.description }}
+        </p>
+      {% endif %}
+    </div>
+
+    {% comment %} Categories Grid {% endcomment %}
+    <div class="categories-grid grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {% for block in section.blocks %}
+        <a 
+          href="{{ block.settings.link }}" 
+          class="category-card relative h-64 rounded-lg overflow-hidden cursor-pointer group transition-all hover:shadow-xl"
+          {{ block.shopify_attributes }}
+        >
+          {% comment %} Category Image {% endcomment %}
+          {% if block.settings.image != blank %}
+            <img 
+              src="{{ block.settings.image | img_url: '600x600', crop: 'center' }}" 
+              alt="{{ block.settings.title | escape }}"
+              class="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
+            >
+          {% else %}
+            <div class="absolute inset-0 bg-gray-200">
+              {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'w-full h-full object-cover opacity-50' }}
+            </div>
+          {% endif %}
+
+          {% comment %} Gradient Overlay {% endcomment %}
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+          
+          {% comment %} Hover Overlay {% endcomment %}
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors z-10"></div>
+
+          {% comment %} Category Title {% endcomment %}
+          <h3 class="absolute bottom-6 left-6 text-white z-20">
+            {{ block.settings.title }}
+          </h3>
+        </a>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Categories",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Compra por Categoría"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Encuentra exactamente lo que buscas"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Category Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Category Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Categories",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "title": "Hoodies"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Jackets"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Sneakers"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Accesorios"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,86 @@
+{% comment %}
+  Blog Template Section
+{% endcomment %}
+
+<section class="blog-template py-20" data-section-id="{{ section.id }}" style="padding-top: 140px;">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <h1 class="text-2xl mb-12 text-center">{{ blog.title }}</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {% for article in blog.articles %}
+        <article class="blog-card bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+          {% if article.image %}
+            <a href="{{ article.url }}">
+              <img 
+                src="{{ article.image | img_url: 'medium' }}" 
+                alt="{{ article.image.alt | default: article.title }}"
+                class="w-full h-48 object-cover"
+                loading="lazy"
+              >
+            </a>
+          {% endif %}
+          
+          <div class="p-6">
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">
+              {{ article.published_at | date: '%d de %B, %Y' }}
+            </div>
+            
+            <h2 class="text-xl mb-3">
+              <a href="{{ article.url }}" class="hover:text-red-500 transition-colors">
+                {{ article.title }}
+              </a>
+            </h2>
+            
+            {% if article.excerpt != blank %}
+              <p class="text-gray-600 dark:text-gray-400 mb-4">
+                {{ article.excerpt | strip_html | truncate: 120 }}
+              </p>
+            {% endif %}
+            
+            <a href="{{ article.url }}" class="text-red-500 hover:text-red-600 transition-colors">
+              Leer más →
+            </a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+    {% if paginate.pages > 1 %}
+      <div class="pagination mt-12 flex justify-center gap-2">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            ← Anterior
+          </a>
+        {% endif %}
+        
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              {{ part.title }}
+            </a>
+          {% else %}
+            <span class="px-4 py-2 bg-red-500 text-white rounded">
+              {{ part.title }}
+            </span>
+          {% endif %}
+        {% endfor %}
+        
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            Siguiente →
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog Template",
+  "tag": "section",
+  "class": "blog-section"
+}
+{% endschema %}

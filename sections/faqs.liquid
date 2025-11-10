@@ -1,0 +1,148 @@
+{% comment %}
+  FAQs Section
+{% endcomment %}
+
+<section class="faqs-section py-20" data-section-id="{{ section.id }}">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    {% if section.settings.heading != blank %}
+      <div class="text-center mb-12">
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+        {% if section.settings.subheading != blank %}
+          <p class="section-description text-gray-600 dark:text-gray-400 mt-4">
+            {{ section.settings.subheading }}
+          </p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="faqs-list space-y-4">
+      {% for block in section.blocks %}
+        <div class="faq-item border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden" {{ block.shopify_attributes }}>
+          <button 
+            type="button"
+            class="faq-question w-full text-left px-6 py-4 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            data-faq-toggle
+          >
+            <span class="pr-8">{{ block.settings.question }}</span>
+            <svg class="faq-icon w-5 h-5 flex-shrink-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer hidden px-6 pb-4" data-faq-answer>
+            <div class="text-gray-600 dark:text-gray-400">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqToggles = document.querySelectorAll('[data-faq-toggle]');
+    
+    faqToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function() {
+        const answer = this.nextElementSibling;
+        const icon = this.querySelector('.faq-icon');
+        const isOpen = !answer.classList.contains('hidden');
+        
+        // Close all FAQs
+        document.querySelectorAll('[data-faq-answer]').forEach(function(item) {
+          item.classList.add('hidden');
+        });
+        
+        document.querySelectorAll('.faq-icon').forEach(function(item) {
+          item.style.transform = 'rotate(0deg)';
+        });
+        
+        // Open clicked FAQ if it was closed
+        if (!isOpen) {
+          answer.classList.remove('hidden');
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "FAQs",
+  "tag": "section",
+  "class": "faqs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Preguntas Frecuentes"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "¿Tienes preguntas? Tenemos respuestas"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "¿Cuál es su política de envíos?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Ofrecemos envío gratis en pedidos mayores a $50 USD. Los envíos estándar tardan de 3-5 días hábiles.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQs",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "¿Cuál es su política de envíos?",
+            "answer": "<p>Ofrecemos envío gratis en pedidos mayores a $50 USD. Los envíos estándar tardan de 3-5 días hábiles.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "¿Puedo devolver un producto?",
+            "answer": "<p>Sí, aceptamos devoluciones dentro de los 30 días posteriores a la compra. El producto debe estar sin usar y con las etiquetas originales.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "¿Cómo puedo rastrear mi pedido?",
+            "answer": "<p>Una vez que tu pedido sea enviado, recibirás un correo electrónico con el número de rastreo y un enlace para seguir tu paquete.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "¿Qué métodos de pago aceptan?",
+            "answer": "<p>Aceptamos todas las tarjetas de crédito principales, PayPal, y Apple Pay.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

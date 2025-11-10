@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "announcement_bar": {
+      "type": "announcement-bar"
+    },
+    "header": {
+      "type": "header"
+    },
+    "main": {
+      "type": "product-template",
+      "settings": {}
+    },
+    "related": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Productos Relacionados"
+      }
+    },
+    "footer": {
+      "type": "footer"
+    }
+  },
+  "order": [
+    "announcement_bar",
+    "header",
+    "main",
+    "related",
+    "footer"
+  ]
+}

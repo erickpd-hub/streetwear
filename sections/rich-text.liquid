@@ -1,0 +1,138 @@
+{% comment %}
+  Rich Text Section
+{% endcomment %}
+
+<section class="rich-text-section py-20" data-section-id="{{ section.id }}">
+  <div class="max-w-{{ section.settings.width }} mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-{{ section.settings.alignment }}">
+      {% if section.settings.heading != blank %}
+        <h2 class="section-heading mb-6">{{ section.settings.heading }}</h2>
+      {% endif %}
+      
+      {% if section.settings.content != blank %}
+        <div class="rich-text-content text-gray-600 dark:text-gray-400 space-y-4">
+          {{ section.settings.content }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_text != blank %}
+        <div class="mt-8">
+          <a 
+            href="{{ section.settings.button_link }}" 
+            class="inline-block bg-red-500 text-white px-8 py-3 rounded-lg hover:bg-red-600 transition-colors"
+          >
+            {{ section.settings.button_text }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .rich-text-content h1,
+  .rich-text-content h2,
+  .rich-text-content h3,
+  .rich-text-content h4 {
+    margin-bottom: 1rem;
+    color: var(--foreground);
+  }
+
+  .rich-text-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  .rich-text-content ul,
+  .rich-text-content ol {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .rich-text-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .rich-text-content a {
+    color: rgb(239, 68, 68);
+    text-decoration: underline;
+  }
+
+  .rich-text-content a:hover {
+    color: rgb(220, 38, 38);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Rich Text",
+  "tag": "section",
+  "class": "rich-text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Agrega tu contenido aquí. Puedes usar texto enriquecido para crear titulares, párrafos, listas y más.</p>"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Content Width",
+      "options": [
+        {
+          "value": "2xl",
+          "label": "Narrow"
+        },
+        {
+          "value": "4xl",
+          "label": "Medium"
+        },
+        {
+          "value": "7xl",
+          "label": "Wide"
+        }
+      ],
+      "default": "4xl"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Text Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich Text"
+    }
+  ]
+}
+{% endschema %}

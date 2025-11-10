@@ -1,0 +1,58 @@
+{% comment %}
+  Page Template Section
+{% endcomment %}
+
+<section class="page-template py-20" data-section-id="{{ section.id }}" style="padding-top: 140px;">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <h1 class="text-2xl mb-8 text-center">{{ page.title }}</h1>
+    
+    <div class="page-content text-gray-600 dark:text-gray-400 space-y-4">
+      {{ page.content }}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .page-content h1,
+  .page-content h2,
+  .page-content h3,
+  .page-content h4 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--foreground);
+  }
+
+  .page-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  .page-content ul,
+  .page-content ol {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .page-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .page-content a {
+    color: rgb(239, 68, 68);
+    text-decoration: underline;
+  }
+
+  .page-content a:hover {
+    color: rgb(220, 38, 38);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Page Template",
+  "tag": "section",
+  "class": "page-section"
+}
+{% endschema %}

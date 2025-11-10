@@ -1,0 +1,119 @@
+{% comment %}
+  Article Template Section
+{% endcomment %}
+
+<section class="article-template py-20" data-section-id="{{ section.id }}" style="padding-top: 140px;">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <article class="article">
+      <header class="article-header text-center mb-12">
+        <h1 class="text-2xl mb-4">{{ article.title }}</h1>
+        
+        <div class="article-meta text-gray-600 dark:text-gray-400">
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+            {{ article.published_at | date: '%d de %B, %Y' }}
+          </time>
+          {% if article.author %}
+            <span class="mx-2">•</span>
+            <span>Por {{ article.author }}</span>
+          {% endif %}
+        </div>
+      </header>
+
+      {% if article.image %}
+        <div class="article-image mb-12">
+          <img 
+            src="{{ article.image | img_url: 'large' }}" 
+            alt="{{ article.image.alt | default: article.title }}"
+            class="w-full h-auto rounded-lg"
+          >
+        </div>
+      {% endif %}
+
+      <div class="article-content text-gray-600 dark:text-gray-400 space-y-4">
+        {{ article.content }}
+      </div>
+
+      {% if article.tags.size > 0 %}
+        <div class="article-tags mt-12 pt-8 border-t border-gray-300 dark:border-gray-700">
+          <div class="flex flex-wrap gap-2">
+            {% for tag in article.tags %}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded text-sm hover:bg-red-500 hover:text-white transition-colors">
+                {{ tag }}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="article-navigation mt-12 pt-8 border-t border-gray-300 dark:border-gray-700 flex justify-between">
+        {% if blog.previous_article %}
+          <a href="{{ blog.previous_article.url }}" class="text-red-500 hover:text-red-600 transition-colors">
+            ← {{ blog.previous_article.title | truncate: 30 }}
+          </a>
+        {% else %}
+          <span></span>
+        {% endif %}
+        
+        {% if blog.next_article %}
+          <a href="{{ blog.next_article.url }}" class="text-red-500 hover:text-red-600 transition-colors">
+            {{ blog.next_article.title | truncate: 30 }} →
+          </a>
+        {% else %}
+          <span></span>
+        {% endif %}
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<style>
+  .article-content h1,
+  .article-content h2,
+  .article-content h3,
+  .article-content h4 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--foreground);
+  }
+
+  .article-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+
+  .article-content ul,
+  .article-content ol {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .article-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .article-content a {
+    color: rgb(239, 68, 68);
+    text-decoration: underline;
+  }
+
+  .article-content a:hover {
+    color: rgb(220, 38, 38);
+  }
+
+  .article-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Article Template",
+  "tag": "section",
+  "class": "article-section"
+}
+{% endschema %}

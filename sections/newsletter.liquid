@@ -1,0 +1,106 @@
+{% comment %}
+  Newsletter Section
+{% endcomment %}
+
+<section 
+  id="shopify-section-{{ section.id }}" 
+  class="newsletter-section py-20 px-4 sm:px-6 lg:px-8"
+  data-section-id="{{ section.id }}"
+  data-section-type="newsletter"
+>
+  <div class="max-w-4xl mx-auto text-center">
+    
+    {% if section.settings.heading != blank %}
+      <h2 class="section-heading mb-4">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <p class="section-description mb-8 text-gray-600">
+        {{ section.settings.description }}
+      </p>
+    {% endif %}
+
+    {% comment %} Newsletter Form {% endcomment %}
+    <div class="max-w-md mx-auto">
+      {% form 'customer', class: 'newsletter-form' %}
+        {% if form.posted_successfully? %}
+          <div class="success-message p-4 mb-4 bg-green-100 text-green-800 rounded-lg">
+            {{ section.settings.success_message }}
+          </div>
+        {% endif %}
+
+        {% if form.errors %}
+          <div class="error-message p-4 mb-4 bg-red-100 text-red-800 rounded-lg">
+            {{ form.errors | default_errors }}
+          </div>
+        {% endif %}
+
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        
+        <div class="flex flex-col sm:flex-row gap-4">
+          <input
+            type="email"
+            name="contact[email]"
+            id="newsletter-email"
+            class="newsletter-input px-6 py-3 rounded-lg flex-1 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+            placeholder="{{ section.settings.placeholder }}"
+            aria-label="Email address"
+            required
+          >
+          <button 
+            type="submit" 
+            class="newsletter-button bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-lg transition-colors"
+          >
+            {{ section.settings.button_label }}
+          </button>
+        </div>
+      {% endform %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Mantente al Día"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Suscríbete para recibir las últimas novedades, ofertas exclusivas y tendencias streetwear"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email Placeholder",
+      "default": "Tu email"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Suscribirse"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success Message",
+      "default": "¡Gracias por suscribirte!"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}
