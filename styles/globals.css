@@ -1,7 +1,3 @@
-/**
- * Shopify Theme - Globals CSS
- * Streetwear eCommerce Theme with Dark Mode
- */
 
 @custom-variant dark (&:is(.dark *));
 
