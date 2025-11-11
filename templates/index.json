@@ -112,10 +112,46 @@
         "description": "Tu destino para la mejor ropa streetwear",
         "copyright_text": "Todos los derechos reservados."
       }
+    },
+    "announcement_bar_HBtLfH": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_nhRf6k": {
+          "type": "announcement",
+          "settings": {
+            "text": "🔥 Envío gratis en compras mayores a $50 USD",
+            "link": ""
+          }
+        },
+        "announcement_VW8WjK": {
+          "type": "announcement",
+          "settings": {
+            "text": "✨ 20% OFF en toda la tienda - Usa código: STREET20",
+            "link": ""
+          }
+        },
+        "announcement_yxUQQw": {
+          "type": "announcement",
+          "settings": {
+            "text": "🚀 Nueva colección disponible ahora",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_nhRf6k",
+        "announcement_VW8WjK",
+        "announcement_yxUQQw"
+      ],
+      "name": "Announcement Bar",
+      "settings": {
+        "speed": 20
+      }
     }
   },
   "order": [
     "header",
+    "announcement_bar_HBtLfH",
     "hero_banner",
     "featured_collection",
     "categories",
