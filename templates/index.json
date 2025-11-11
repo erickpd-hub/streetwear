@@ -1,16 +1,28 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "announcement_bar": {
-      "type": "announcement-bar",
-      "settings": {}
-    },
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "logo_width": 120,
+        "logo_text": "STREET",
+        "logo_accent": "WEAR",
+        "menu": "main-menu"
+      }
     },
     "hero_banner": {
       "type": "hero-banner",
       "settings": {
+        "overlay_color": "#000000",
+        "overlay_opacity": 40,
         "subheading": "COLECCIÓN 2025",
         "heading": "URBAN\nSTYLE",
         "text": "Descubre la nueva colección de ropa streetwear diseñada para los que marcan tendencia en las calles",
@@ -21,8 +33,6 @@
         "button_label_2": "Ver Colección",
         "button_link_2": "/collections/all",
         "button_color_2": "#ffffff",
-        "overlay_color": "#000000",
-        "overlay_opacity": 40,
         "show_scroll_indicator": true
       }
     },
@@ -32,6 +42,7 @@
         "badge_text": "Nueva Colección",
         "heading": "Lo Más Nuevo en Streetwear",
         "description": "Descubre nuestras últimas piezas diseñadas para destacar en cualquier situación urbana",
+        "collection": "",
         "products_to_show": 6,
         "show_new_badge": true,
         "new_badge_text": "Nuevo",
@@ -94,11 +105,16 @@
     },
     "footer": {
       "type": "footer",
-      "settings": {}
+      "settings": {
+        "logo_width": 100,
+        "logo_text": "STREET",
+        "logo_accent": "WEAR",
+        "description": "Tu destino para la mejor ropa streetwear",
+        "copyright_text": "Todos los derechos reservados."
+      }
     }
   },
   "order": [
-    "announcement_bar",
     "header",
     "hero_banner",
     "featured_collection",
